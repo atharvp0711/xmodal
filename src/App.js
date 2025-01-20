@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
+import "./App.css";
 
 Modal.setAppElement("#root");
 
@@ -13,6 +14,7 @@ const App = () => {
   });
 
   const openModal = () => setIsModalOpen(true);
+
   const closeModal = () => {
     setIsModalOpen(false);
     setFormData({ username: "", email: "", phone: "", dob: "" });
@@ -25,26 +27,9 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { username, email, phone, dob } = formData;
+    const { email, phone, dob } = formData;
 
-    // Validation checks
-    if (!username.trim()) {
-      alert("Please fill out the Username field.");
-      return;
-    }
-    if (!email.trim()) {
-      alert("Please fill out the Email Address field.");
-      return;
-    }
-    if (!phone.trim()) {
-      alert("Please fill out the Phone Number field.");
-      return;
-    }
-    if (!dob.trim()) {
-      alert("Please fill out the Date of Birth field.");
-      return;
-    }
-
+    // Validate email
     if (!email.includes("@")) {
       alert(
         `Please include an '@' in the email address. '${email}' is missing an '@'.`
@@ -52,15 +37,17 @@ const App = () => {
       return;
     }
 
+    // Validate phone number
     if (phone.length !== 10 || isNaN(phone)) {
       alert("Invalid Phone Number. Please enter a 10-digit phone number.");
       return;
     }
 
+    // Validate date of birth
     const today = new Date();
     const dobDate = new Date(dob);
     if (dobDate > today) {
-      alert("Invalid date of birth. Date of Birth cannot be in the future.");
+      alert("Invalid Date of Birth. Date of Birth cannot be in the future.");
       return;
     }
 
@@ -94,11 +81,23 @@ const App = () => {
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.75)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           },
           content: {
-            padding: "0",
-            border: "none",
-            background: "transparent",
+            position: "relative",
+            top: "unset",
+            left: "unset",
+            right: "unset",
+            bottom: "unset",
+            margin: "0 auto",
+            maxWidth: "500px",
+            width: "90%",
+            background: "#ffffff",
+            padding: "20px",
+            borderRadius: "8px",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
           },
         }}
       >
@@ -126,6 +125,7 @@ const App = () => {
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
+                required
                 style={{
                   width: "100%",
                   padding: "10px",
@@ -147,6 +147,7 @@ const App = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                required
                 style={{
                   width: "100%",
                   padding: "10px",
@@ -168,6 +169,7 @@ const App = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
+                required
                 style={{
                   width: "100%",
                   padding: "10px",
@@ -189,6 +191,7 @@ const App = () => {
                 name="dob"
                 value={formData.dob}
                 onChange={handleChange}
+                required
                 style={{
                   width: "100%",
                   padding: "10px",
