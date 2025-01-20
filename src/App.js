@@ -90,6 +90,7 @@ const App = () => {
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
+        shouldCloseOnOverlayClick={true}
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.75)",
@@ -113,11 +114,15 @@ const App = () => {
           </h2>
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: "15px" }}>
-              <label style={{ display: "block", fontWeight: "bold" }}>
+              <label
+                htmlFor="username"
+                style={{ display: "block", fontWeight: "bold" }}
+              >
                 Username:
               </label>
               <input
                 type="text"
+                id="username"
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
@@ -130,11 +135,15 @@ const App = () => {
               />
             </div>
             <div style={{ marginBottom: "15px" }}>
-              <label style={{ display: "block", fontWeight: "bold" }}>
+              <label
+                htmlFor="email"
+                style={{ display: "block", fontWeight: "bold" }}
+              >
                 Email Address:
               </label>
               <input
                 type="email"
+                id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
@@ -147,11 +156,15 @@ const App = () => {
               />
             </div>
             <div style={{ marginBottom: "15px" }}>
-              <label style={{ display: "block", fontWeight: "bold" }}>
+              <label
+                htmlFor="phone"
+                style={{ display: "block", fontWeight: "bold" }}
+              >
                 Phone Number:
               </label>
               <input
                 type="tel"
+                id="phone"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
@@ -164,11 +177,15 @@ const App = () => {
               />
             </div>
             <div style={{ marginBottom: "15px" }}>
-              <label style={{ display: "block", fontWeight: "bold" }}>
+              <label
+                htmlFor="dob"
+                style={{ display: "block", fontWeight: "bold" }}
+              >
                 Date of Birth:
               </label>
               <input
                 type="date"
+                id="dob"
                 name="dob"
                 value={formData.dob}
                 onChange={handleChange}
