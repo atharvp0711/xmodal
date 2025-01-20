@@ -1,272 +1,124 @@
 import React, { useState } from "react";
-import Modal from "react-modal";
+import "./App.css"; // Assuming styles are placed in XModal.css
 
-Modal.setAppElement("#root");
-
-const App = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const XModal = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     phone: "",
     dob: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setFormData({ username: "", email: "", phone: "", dob: "" });
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
+
+  const handleOutsideClick = (e) => {
+    if (e.target.className === "modal") {
+      closeModal();
+    }
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const { username, email, phone, dob } = formData;
 
-    // Checking for empty fields
-    // if (!username.trim()) {
-    //   alert("Please fill out the Username field.");
-    //   return;
-    // }
-    // if (!email.trim()) {
-    //   alert("Please fill out the Email Address field.");
-    //   return;
-    // }
-    // if (!phone.trim()) {
-    //   alert("Please fill out the Phone Number field.");
-    //   return;
-    // }
-    // if (!dob.trim()) {
-    //   alert("Please fill out the Date of Birth field.");
-    //   return;
-    // }
-
+    if (!username) {
+      setErrorMessage("Please fill out the Username field.");
+      return;
+    }
     if (!email.includes("@")) {
-      alert(
-        `Please include an '@' in the email address. '${email}' is missing an '@'.`
+      setErrorMessage("Invalid email. Please check your email address.");
+      return;
+    }
+    if (phone.length !== 10 || isNaN(phone)) {
+      setErrorMessage(
+        "Invalid phone number. Please enter a 10-digit phone number."
+      );
+      return;
+    }
+    const today = new Date();
+    const birthDate = new Date(dob);
+    if (birthDate > today) {
+      setErrorMessage(
+        "Invalid Date of Birth. You cannot select a future date."
       );
       return;
     }
 
-    if (phone.length !== 10 || isNaN(phone)) {
-      alert("Invalid Phone Number. Please enter a 10-digit phone number.");
-      return;
-    }
-
-    const today = new Date();
-    const dobDate = new Date(dob);
-    if (dobDate > today) {
-      alert("Invalid date of birth. Date of Birth cannot be in the future.");
-      return;
-    }
-
-    alert("Form submitted successfully!");
-    closeModal();
+    setErrorMessage("");
+    closeModal(); // Close modal on successful submission
   };
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
-        backgroundColor: "#f5f5f5",
-      }}
-    >
-      <h1 style={{ fontSize: "2rem", fontWeight: "600" }}>
-        User Details Modal
-      </h1>
-      <button
-        style={{
-          backgroundColor: "#0384fc",
-          color: "white",
-          padding: "10px 20px",
-          border: "none",
-          cursor: "pointer",
-          borderRadius: "5px",
-          fontSize: "1rem",
-        }}
-        onClick={openModal}
-      >
-        Open Form
-      </button>
-      {isModalOpen && (
-        <div className="modal" style={{ width: "400px", height: "450px" }}>
-          <Modal
-            isOpen={isModalOpen}
-            onRequestClose={closeModal}
-            shouldCloseOnOverlayClick={true}
-            style={{
-              overlay: {
-                backgroundColor: "rgba(0, 0, 0, 0.75)",
-              },
-              content: {
-                position: "absolute",
-                width: "400px",
-                height: "450px",
-                padding: "30px",
-                margin: "0 auto",
-                borderRadius: "10px",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                border: "1px solid #ccc",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "15px",
-                backgroundColor: "#ffffff",
-              },
-            }}
-          >
-            <h2
-              style={{
-                marginBottom: "20px",
-                fontSize: "1.5rem",
-                fontWeight: "600",
-              }}
-            >
-              Fill Details
-            </h2>
-            <div className="modal-content">
-              <form style={{ width: "100%" }} onSubmit={handleSubmit}>
-                <div style={{ marginBottom: "15px" }}>
-                  <label
-                    style={{
-                      display: "block",
-                      fontSize: "1rem",
-                      marginBottom: "5px",
-                      fontWeight: "bold",
-                      textAlign: "center",
-                    }}
-                  >
-                    Username:
-                  </label>
-                  <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    value={formData.username}
-                    required
-                    onChange={handleChange}
-                    style={{
-                      width: "100%",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      border: "1px solid #ccc",
-                    }}
-                  />
-                </div>
-                <div style={{ marginBottom: "15px" }}>
-                  <label
-                    style={{
-                      display: "block",
-                      fontSize: "1rem",
-                      marginBottom: "5px",
-                      fontWeight: "bold",
-                      textAlign: "center",
-                    }}
-                  >
-                    Email Address:
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    style={{
-                      width: "100%",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      border: "1px solid #ccc",
-                    }}
-                  />
-                </div>
-                <div style={{ marginBottom: "15px" }}>
-                  <label
-                    style={{
-                      display: "block",
-                      fontSize: "1rem",
-                      marginBottom: "5px",
-                      fontWeight: "bold",
-                      textAlign: "center",
-                    }}
-                  >
-                    Phone Number:
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    style={{
-                      width: "100%",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      border: "1px solid #ccc",
-                    }}
-                  />
-                </div>
-                <div style={{ marginBottom: "15px" }}>
-                  <label
-                    style={{
-                      display: "block",
-                      fontSize: "1rem",
-                      marginBottom: "5px",
-                      fontWeight: "bold",
-                      textAlign: "center",
-                    }}
-                  >
-                    Date of Birth:
-                  </label>
-                  <input
-                    type="date"
-                    id="dob"
-                    name="dob"
-                    value={formData.dob}
-                    onChange={handleChange}
-                    required
-                    style={{
-                      width: "100%",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      border: "1px solid #ccc",
-                    }}
-                  />
-                </div>
-                <button
-                  className="submit-button"
-                  type="submit"
-                  style={{
-                    backgroundColor: "#0384fc",
-                    color: "white",
-                    padding: "10px 20px",
-                    border: "none",
-                    cursor: "pointer",
-                    borderRadius: "5px",
-                    fontSize: "1rem",
-                    marginTop: "10px",
-                  }}
-                >
-                  Submit
-                </button>
-              </form>
-            </div>
-          </Modal>
+    <div>
+      <h1>User Details modal</h1>
+      <button onClick={openModal}>Open Form</button>
+
+      {isOpen && (
+        <div className="modal" onClick={handleOutsideClick}>
+          <div className="modal-content">
+            <form onSubmit={handleSubmit}>
+              <h1>Fill Details</h1>
+              <label>
+                Username:
+                <input
+                  type="text"
+                  id="username"
+                  placeholder="Enter your username"
+                  value={formData.username}
+                  onChange={handleChange}
+                />
+              </label>
+              <br />
+              <label>
+                Email Address:
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </label>
+              <br />
+              <label>
+                Phone Number:
+                <input
+                  type="text"
+                  id="phone"
+                  placeholder="Enter your phone number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
+              </label>
+              <br />
+              <label>
+                Date of Birth:
+                <input
+                  type="date"
+                  id="dob"
+                  value={formData.dob}
+                  onChange={handleChange}
+                />
+              </label>
+              <br />
+              <button type="submit" className="submit-button">
+                Submit
+              </button>
+            </form>
+            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-export default App;
+export default XModal;
