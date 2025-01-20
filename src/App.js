@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import "./App.css";
 
 Modal.setAppElement("#root");
 
@@ -14,7 +13,6 @@ const App = () => {
   });
 
   const openModal = () => setIsModalOpen(true);
-
   const closeModal = () => {
     setIsModalOpen(false);
     setFormData({ username: "", email: "", phone: "", dob: "" });
@@ -27,9 +25,26 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { email, phone, dob } = formData;
+    const { username, email, phone, dob } = formData;
 
-    // Validate email
+    // Checking for empty fields
+    // if (!username.trim()) {
+    //   alert("Please fill out the Username field.");
+    //   return;
+    // }
+    // if (!email.trim()) {
+    //   alert("Please fill out the Email Address field.");
+    //   return;
+    // }
+    // if (!phone.trim()) {
+    //   alert("Please fill out the Phone Number field.");
+    //   return;
+    // }
+    // if (!dob.trim()) {
+    //   alert("Please fill out the Date of Birth field.");
+    //   return;
+    // }
+
     if (!email.includes("@")) {
       alert(
         `Please include an '@' in the email address. '${email}' is missing an '@'.`
@@ -37,17 +52,15 @@ const App = () => {
       return;
     }
 
-    // Validate phone number
     if (phone.length !== 10 || isNaN(phone)) {
       alert("Invalid Phone Number. Please enter a 10-digit phone number.");
       return;
     }
 
-    // Validate date of birth
     const today = new Date();
     const dobDate = new Date(dob);
     if (dobDate > today) {
-      alert("Invalid Date of Birth. Date of Birth cannot be in the future.");
+      alert("Invalid date of birth. Date of Birth cannot be in the future.");
       return;
     }
 
@@ -56,7 +69,15 @@ const App = () => {
   };
 
   return (
-    <div className="modal">
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+        backgroundColor: "#f5f5f5",
+      }}
+    >
       <h1 style={{ fontSize: "2rem", fontWeight: "600" }}>
         User Details Modal
       </h1>
@@ -74,34 +95,35 @@ const App = () => {
       >
         Open Form
       </button>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        shouldCloseOnOverlayClick={true}
-        style={{
-          overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.75)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          },
-          content: {
-            position: "relative",
-            top: "unset",
-            left: "unset",
-            right: "unset",
-            bottom: "unset",
-            margin: "0 auto",
-            maxWidth: "500px",
-            width: "90%",
-            background: "#ffffff",
-            padding: "20px",
-            borderRadius: "8px",
-            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
-          },
-        }}
-      >
-        <div className="modal-content">
+      <div className="modal">
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          style={{
+            overlay: {
+              backgroundColor: "rgba(0, 0, 0, 0.75)",
+            },
+            content: {
+              position: "absolute",
+              width: "400px",
+              height: "450px",
+              padding: "30px",
+              margin: "0 auto",
+              borderRadius: "10px",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+              border: "1px solid #ccc",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "15px",
+              backgroundColor: "#ffffff",
+            },
+          }}
+        >
           <h2
             style={{
               marginBottom: "20px",
@@ -111,128 +133,135 @@ const App = () => {
           >
             Fill Details
           </h2>
-          <form onSubmit={handleSubmit}>
-            <div style={{ marginBottom: "15px" }}>
-              <label
-                htmlFor="username"
-                style={{ display: "block", fontWeight: "bold" }}
-              >
-                Username:
-              </label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                required
+          <div className="modal-content">
+            <form style={{ width: "100%" }} onSubmit={handleSubmit}>
+              <div style={{ marginBottom: "15px" }}>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: "1rem",
+                    marginBottom: "5px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}
+                >
+                  Username:
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={formData.username}
+                  required
+                  onChange={handleChange}
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                  }}
+                />
+              </div>
+              <div style={{ marginBottom: "15px" }}>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: "1rem",
+                    marginBottom: "5px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}
+                >
+                  Email Address:
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                  }}
+                />
+              </div>
+              <div style={{ marginBottom: "15px" }}>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: "1rem",
+                    marginBottom: "5px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}
+                >
+                  Phone Number:
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                  }}
+                />
+              </div>
+              <div style={{ marginBottom: "15px" }}>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: "1rem",
+                    marginBottom: "5px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}
+                >
+                  Date of Birth:
+                </label>
+                <input
+                  type="date"
+                  id="dob"
+                  name="dob"
+                  value={formData.dob}
+                  onChange={handleChange}
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                  }}
+                />
+              </div>
+              <button
+                className="submit-button"
+                type="submit"
                 style={{
-                  width: "100%",
-                  padding: "10px",
+                  backgroundColor: "#0384fc",
+                  color: "white",
+                  padding: "10px 20px",
+                  border: "none",
+                  cursor: "pointer",
                   borderRadius: "5px",
-                  border: "1px solid #ccc",
+                  fontSize: "1rem",
+                  marginTop: "10px",
                 }}
-              />
-            </div>
-            <div style={{ marginBottom: "15px" }}>
-              <label
-                htmlFor="email"
-                style={{ display: "block", fontWeight: "bold" }}
               >
-                Email Address:
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  borderRadius: "5px",
-                  border: "1px solid #ccc",
-                }}
-              />
-            </div>
-            <div style={{ marginBottom: "15px" }}>
-              <label
-                htmlFor="phone"
-                style={{ display: "block", fontWeight: "bold" }}
-              >
-                Phone Number:
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  borderRadius: "5px",
-                  border: "1px solid #ccc",
-                }}
-              />
-            </div>
-            <div style={{ marginBottom: "15px" }}>
-              <label
-                htmlFor="dob"
-                style={{ display: "block", fontWeight: "bold" }}
-              >
-                Date of Birth:
-              </label>
-              <input
-                type="date"
-                id="dob"
-                name="dob"
-                value={formData.dob}
-                onChange={handleChange}
-                required
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  borderRadius: "5px",
-                  border: "1px solid #ccc",
-                }}
-              />
-            </div>
-            <button
-              type="submit"
-              style={{
-                backgroundColor: "#0384fc",
-                color: "white",
-                padding: "10px 20px",
-                border: "none",
-                cursor: "pointer",
-                borderRadius: "5px",
-                fontSize: "1rem",
-                marginTop: "10px",
-              }}
-            >
-              Submit
-            </button>
-          </form>
-          <button
-            onClick={closeModal}
-            style={{
-              backgroundColor: "gray",
-              color: "white",
-              padding: "10px 20px",
-              border: "none",
-              cursor: "pointer",
-              borderRadius: "5px",
-              fontSize: "1rem",
-              marginTop: "10px",
-            }}
-          >
-            Close
-          </button>
-        </div>
-      </Modal>
+                Submit
+              </button>
+            </form>
+          </div>
+        </Modal>
+      </div>
     </div>
   );
 };
