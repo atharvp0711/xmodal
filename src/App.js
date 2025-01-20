@@ -27,7 +27,7 @@ const App = () => {
     e.preventDefault();
     const { username, email, phone, dob } = formData;
 
-    // Checking for empty fields
+    // Validation checks
     if (!username.trim()) {
       alert("Please fill out the Username field.");
       return;
@@ -69,15 +69,7 @@ const App = () => {
   };
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
-        backgroundColor: "#f5f5f5",
-      }}
-    >
+    <div className="modal">
       <h1 style={{ fontSize: "2rem", fontWeight: "600" }}>
         User Details Modal
       </h1>
@@ -103,140 +95,111 @@ const App = () => {
             backgroundColor: "rgba(0, 0, 0, 0.75)",
           },
           content: {
-            position: "absolute",
-            width: "400px",
-            height: "450px",
-            padding: "30px",
-            margin: "0 auto",
-            borderRadius: "10px",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-            border: "1px solid #ccc",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "15px",
-            backgroundColor: "#ffffff",
+            padding: "0",
+            border: "none",
+            background: "transparent",
           },
         }}
       >
-        <h2
-          style={{
-            marginBottom: "20px",
-            fontSize: "1.5rem",
-            fontWeight: "600",
-          }}
-        >
-          Fill Details
-        </h2>
-        <form style={{ width: "100%" }} onSubmit={handleSubmit}>
-          <div style={{ marginBottom: "15px" }}>
-            <label
-              style={{
-                display: "block",
-                fontSize: "1rem",
-                marginBottom: "5px",
-                fontWeight: "bold",
-                textAlign: "center",
-              }}
-            >
-              Username:
-            </label>
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              style={{
-                width: "100%",
-                padding: "10px",
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-              }}
-            />
-          </div>
-          <div style={{ marginBottom: "15px" }}>
-            <label
-              style={{
-                display: "block",
-                fontSize: "1rem",
-                marginBottom: "5px",
-                fontWeight: "bold",
-                textAlign: "center",
-              }}
-            >
-              Email Address:
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              style={{
-                width: "100%",
-                padding: "10px",
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-              }}
-            />
-          </div>
-          <div style={{ marginBottom: "15px" }}>
-            <label
-              style={{
-                display: "block",
-                fontSize: "1rem",
-                marginBottom: "5px",
-                fontWeight: "bold",
-                textAlign: "center",
-              }}
-            >
-              Phone Number:
-            </label>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              style={{
-                width: "100%",
-                padding: "10px",
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-              }}
-            />
-          </div>
-          <div style={{ marginBottom: "15px" }}>
-            <label
-              style={{
-                display: "block",
-                fontSize: "1rem",
-                marginBottom: "5px",
-                fontWeight: "bold",
-                textAlign: "center",
-              }}
-            >
-              Date of Birth:
-            </label>
-            <input
-              type="date"
-              name="dob"
-              value={formData.dob}
-              onChange={handleChange}
-              style={{
-                width: "100%",
-                padding: "10px",
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-              }}
-            />
-          </div>
-          <button
-            type="submit"
+        <div className="modal-content">
+          <h2
             style={{
-              backgroundColor: "#0384fc",
+              marginBottom: "20px",
+              fontSize: "1.5rem",
+              fontWeight: "600",
+            }}
+          >
+            Fill Details
+          </h2>
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: "15px" }}>
+              <label style={{ display: "block", fontWeight: "bold" }}>
+                Username:
+              </label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  border: "1px solid #ccc",
+                }}
+              />
+            </div>
+            <div style={{ marginBottom: "15px" }}>
+              <label style={{ display: "block", fontWeight: "bold" }}>
+                Email Address:
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  border: "1px solid #ccc",
+                }}
+              />
+            </div>
+            <div style={{ marginBottom: "15px" }}>
+              <label style={{ display: "block", fontWeight: "bold" }}>
+                Phone Number:
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  border: "1px solid #ccc",
+                }}
+              />
+            </div>
+            <div style={{ marginBottom: "15px" }}>
+              <label style={{ display: "block", fontWeight: "bold" }}>
+                Date of Birth:
+              </label>
+              <input
+                type="date"
+                name="dob"
+                value={formData.dob}
+                onChange={handleChange}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  border: "1px solid #ccc",
+                }}
+              />
+            </div>
+            <button
+              type="submit"
+              style={{
+                backgroundColor: "#0384fc",
+                color: "white",
+                padding: "10px 20px",
+                border: "none",
+                cursor: "pointer",
+                borderRadius: "5px",
+                fontSize: "1rem",
+                marginTop: "10px",
+              }}
+            >
+              Submit
+            </button>
+          </form>
+          <button
+            onClick={closeModal}
+            style={{
+              backgroundColor: "gray",
               color: "white",
               padding: "10px 20px",
               border: "none",
@@ -246,9 +209,9 @@ const App = () => {
               marginTop: "10px",
             }}
           >
-            Submit
+            Close
           </button>
-        </form>
+        </div>
       </Modal>
     </div>
   );
