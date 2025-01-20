@@ -95,7 +95,7 @@ const App = () => {
       >
         Open Form
       </button>
-      <div className="modal">
+      <div className="modal" style={{ width: "400px", height: "450px" }}>
         <Modal
           isOpen={isModalOpen}
           onRequestClose={closeModal}
